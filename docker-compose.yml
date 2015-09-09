@@ -1,0 +1,15 @@
+postgres:
+  image: sameersbn/postgresql:9.4-4
+  ports:
+    - "5432:5432"
+  environment:
+    - DB_USER=admin
+    - DB_PASS=admin
+    - DB_NAME=todo
+
+app:
+  build: .
+  ports:
+    - "5000:5000"
+  links:
+    - postgres:postgres

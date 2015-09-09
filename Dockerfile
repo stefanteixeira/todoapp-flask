@@ -1,12 +1,10 @@
 FROM python:2.7.10
 
-RUN apt-get -y update && apt-get -y install git && \
-    pip install psycopg2 && \
-    pip install flask && \
-    pip install Flask-SQLAlchemy && \
-    git clone https://github.com/stefanteixeira/todoapp-flask.git
-
 ADD ./start.sh /
+ADD ./requirements.txt /
+
+RUN pip install -r requirements.txt && \
+    git clone https://github.com/stefanteixeira/todoapp-flask.git
 
 EXPOSE 5000
 
