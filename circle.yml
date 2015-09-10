@@ -10,5 +10,6 @@ dependencies:
 
 test:
   override:
+    - sudo service postgresql stop; sleep 10
     - docker-compose up -d; sleep 15
     - curl --retry 10 --retry-delay 5 -v http://localhost:5000
