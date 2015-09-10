@@ -1,0 +1,14 @@
+machine:
+  services:
+    - docker
+  python:
+    - 2.7.10
+
+dependencies:
+  override:
+    - sudo pip install --upgrade docker-compose
+
+test:
+  override:
+    - docker-compose up -d; sleep 15
+    - curl --retry 10 --retry-delay 5 -v http://localhost:5000
