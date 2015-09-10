@@ -7,6 +7,7 @@ To init a PostgreSQL database container for the project:
 To run a container for the application:
 
 ```docker build -t todoapp .```
+
 ```docker run -d -p 5000:5000 --link postgresql:postgres --name todo todoapp```
 
 Or, with docker-compose:
