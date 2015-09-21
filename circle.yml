@@ -6,8 +6,8 @@ machine:
 
 dependencies:
   override:
-    - sudo pip install docker-compose==1.3.3
-    - sudo pip install selenium
+    - pip install docker-compose==1.3.3
+    - pip install selenium
 
 test:
   override:
