@@ -12,13 +12,13 @@
 
     <div class="control-group">
         <div class="controls">
-          <textarea name="text" rows=10 class="input-xlarge" placeholder="describe the todo item" required>{{ request.form.text }}</textarea>
+          <textarea id="text" name="text" rows=10 class="input-xlarge" placeholder="describe the todo item" required>{{ request.form.text }}</textarea>
         </div>
     </div>
 
     <div class="control-group">
         <div class="controls">
-          <button type="submit" class="btn btn-success">Create Todo</button>
+          <button id="save" type="submit" class="btn btn-success">Create Todo</button>
           <a href="{{ url_for('index') }}">Back to list</a>
         </div>
     </div>
