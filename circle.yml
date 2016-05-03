@@ -3,14 +3,40 @@ machine:
     - docker
   python:
     version: 2.7.10
+  environment:
+      APP_SETTINGS: config.DevelopmentConfig
+      PYTHONPATH: /home/ubuntu/todoapp-flask
 
 dependencies:
   override:
+    - sudo apt-get install python-pycurl
+    - pip install pyresttest
     - pip install docker-compose==1.3.3
     - pip install selenium
+    - pip install nose
+    - pip install coverage
+    - pip install psycopg2
+    - pip install flask
+    - pip install Flask-SQLAlchemy
+    - pip install locustio
+    - pip install pyzmq
+    - pip install flask-fixtures
+    - pip install PyYAML
 
 test:
   override:
-    - sudo service postgresql stop; sleep 10
-    - docker-compose up -d; sleep 15
-    - python test/test.py
+    - cd todoapp && nosetests  tests/integration_tests.py tests/unit_tests.py --with-xunit --with-coverage --cover-inclusive --cover-package=todoapp --cover-html
+    - cd todoapp && nosetests fixtures/fixtures_tests.py --with-xunit
+    - sudo service postgresql stop && sleep 10
+    - docker-compose up -d && sleep 15
+    - python todoapp/tests/functional_tests.py
+    - pyresttest http://localhost:5001 todoapp/tests/api_smoke_tests.yml
+    - locust --no-web -c 1 -r 1 -n 4 --only-summary --print-stats
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . -type f -regex ".*/todoapp/test/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+
+general:
+  artifacts:
+    - "todoapp/test/cover/index.html"
+    - "todoapp/test/nosetests.xml"

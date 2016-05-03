@@ -1,0 +1,28 @@
+---
+- config:
+    - testset: "Basic flask API tests"
+    - timeout: 100  # Increase timeout from the default 10 seconds
+- test:
+    - name: "Basic get"
+    - url: "/api/todos"
+- test: # create todo by POST
+    - name: "Create todo"
+    - url: "/api/todos"
+    - method: "POST"
+    - body: '{"text": "teste api", "title": "teste"}'
+    - headers: {Content-Type: application/json}
+- test: # create todo by PUT
+    - name: "Create/update todo"
+    - url: "/api/todos/1"
+    - method: "PUT"
+    - body: '{"text": "teste api put", "title": "teste PUT"}'
+    - headers: {Content-Type: 'application/json'}
+    - validators:  # This is how we do more complex testing!
+        - compare: {jsonpath_mini: 'text', expected: 'teste api put'}  # JSON extraction
+        - compare: {raw_body: "", comparator: contains, expected: 'api' }  # Tests on raw response
+- test:
+    - name: "Get single todo"
+    - url: "/api/todos/1"
+    - validators:  # This is how we do more complex testing!
+        - compare: {jsonpath_mini: 'text', expected: 'teste api put'}  # JSON extraction
+        - compare: {raw_body: "", comparator: contains, expected: 'api' }  # Tests on raw response

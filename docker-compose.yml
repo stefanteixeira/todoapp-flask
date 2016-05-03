@@ -11,5 +11,9 @@ app:
   build: .
   ports:
     - "5000:5000"
+    - "5001:5001"
+  environment:
+    - APP_SETTINGS=config.StagingConfig
+    - PYTHONPATH=/todoapp-flask
   links:
     - postgres:postgres

@@ -1,0 +1,8 @@
+- model: todoapp.models.Todo
+  records:
+    - title: Fixture TODO 1
+      text: Fixture TODO 1 - Text
+    - title: Fixture TODO 2
+      text: Fixture TODO 2 - Text
+    - title: Fixture TODO 3
+      text: Fixture TODO 3 - Text
