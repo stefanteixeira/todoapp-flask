@@ -3,27 +3,32 @@ import unittest
 
 class ToDoFunctionalTests(unittest.TestCase):
 
-        driver = webdriver.Firefox()
-        driver.implicitly_wait(10)
-        driver.get("http://localhost:5000/")
-        if not "TodoApp" in driver.title:
+    def setUp(self):
+        self.driver = webdriver.Firefox()
+        self.driver.implicitly_wait(10)
+
+    def test_create_todo(self):
+        self.driver.get(u'http://localhost:5000/')
+        if not "TodoApp" in self.driver.title:
             raise Exception("Unable to load page!")
+        btn_new_todo = self.driver.find_element_by_id("new")
+        btn_new_todo.click()
 
-
-        btnNewTodo = driver.find_element_by_id("new")
-        btnNewTodo.click()
-
-        title = driver.find_element_by_id("title")
-        text = driver.find_element_by_id("text")
-        btnCreate = driver.find_element_by_id("save")
+        title = self.driver.find_element_by_id("title")
+        text = self.driver.find_element_by_id("text")
+        btn_create = self.driver.find_element_by_id("save")
 
         title.send_keys("New TODO")
         text.send_keys("Describe the task clearly")
-        btnCreate.click()
+        btn_create.click()
 
-        assert driver.current_url == "http://localhost:5000/"
-        page_source = driver.page_source
+        assert self.driver.current_url == u'http://localhost:5000/'
+        page_source = self.driver.page_source
         assert "New TODO" in page_source
         assert "Describe the task clearly" in page_source
 
-        driver.quit()
+    def tearDown(self):
+        self.driver.quit()
+
+if __name__ == "__main__":
+    unittest.main()
